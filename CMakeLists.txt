@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(bluekyu_framework_test_rxcpp
+project(rxcpp_patterns
     VERSION 0.1.0
-    DESCRIPTION "Test sample for rxcpp"
+    DESCRIPTION "Test project for rxcpp"
     LANGUAGES CXX
 )
 
@@ -22,6 +22,7 @@ message("[${PROJECT_NAME}] build version: ${${PROJECT_NAME}_SEMANTIC_VERSION}")
 
 # === project specific packages ===
 find_package(spdlog CONFIG REQUIRED)
+find_package(rxcpp CONFIG REQUIRED)
 
 # configure
 if(${PROJECT_NAME}_BUILD_DEV)
@@ -69,6 +70,7 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     spdlog::spdlog
+    rxcpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
