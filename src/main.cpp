@@ -1,5 +1,7 @@
 #include "main.hpp"
 
+#include "message.hpp"
+
 Engine::Engine() : frames_creator_(frame_subject_.get_subscriber())
 {
 }
@@ -7,7 +9,7 @@ Engine::Engine() : frames_creator_(frame_subject_.get_subscriber())
 void Engine::setup()
 {
     spdlog::set_level(spdlog::level::debug);
-    spdlog::set_pattern("%^[%H:%M:%S.%e] [%t] [%l] %v%$");
+    spdlog::set_pattern("[%H:%M:%S.%e] [%t] [%^%l%$] %v");
 
     main_worker_ = rxcpp::rxsc::make_run_loop(loop_).create_worker();
     job_worker_ = rxcpp::schedulers::make_scheduler<rxcpp::schedulers::new_thread>().create_worker();
@@ -38,11 +40,20 @@ void Engine::setup()
             });
 
     frames_ |
+        rxcpp::rxo::map([](size_t frame) {
+            Message msg;
+            msg->key = "frame" + std::to_string(frame % 10);
+            msg->data = std::to_string(frame);
+
+            spdlog::debug("Begin message: {}", msg->key);
+
+            return msg;
+        }) |
         test_group_by() |
-        rxcpp::rxo::subscribe<size_t>(
+        rxcpp::rxo::subscribe<Message>(
             lifetime_,
-            [](size_t frame) {
-                spdlog::debug("End test_group_by: {}", frame);
+            [](Message msg) {
+                spdlog::debug("End message: {}", msg->key);
             },
             [](std::exception_ptr eptr) {
                 try

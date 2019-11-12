@@ -11,6 +11,7 @@ set(${PROJECT_NAME}_headers
 set(${PROJECT_NAME}_sources_src
     "${PROJECT_SOURCE_DIR}/src/main.cpp"
     "${PROJECT_SOURCE_DIR}/src/main.hpp"
+    "${PROJECT_SOURCE_DIR}/src/message.hpp"
     "${PROJECT_SOURCE_DIR}/src/test_group_by.cpp"
     "${PROJECT_SOURCE_DIR}/src/test_nested_observable.cpp"
     "${PROJECT_SOURCE_DIR}/src/test_polling.cpp"

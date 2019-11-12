@@ -13,7 +13,6 @@ public:
     void update();
     bool render();
 
-    auto test_group_by() -> std::function<rxcpp::observable<size_t>(rxcpp::observable<size_t>)>;
     auto test_nested_observable() -> std::function<rxcpp::observable<size_t>(rxcpp::observable<size_t>)>;
     auto test_polling() -> std::function<rxcpp::observable<size_t>(rxcpp::observable<size_t>)>;
 
